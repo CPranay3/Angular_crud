@@ -1,0 +1,95 @@
+<br>
+<style>
+  h1 {text-align: center;}
+
+  </style>
+<h1>Country Details Form</h1>
+
+
+
+<div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>SuccessFully Added!</strong> Data Added
+  <button (click)="closeAlert()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="delete" class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>SuccessFully Deleted!</strong> Data deleted
+  <button (click)="close()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div *ngIf="edited" class="alert alert-success alert-dismissible fade show" role="alert">
+  <strong>SuccessFully Updated!</strong> Data Updated
+  <button (click)="closed()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="container">
+  <form #myForm="ngForm">
+    <br>
+    <div class="form-group">
+      <label for="exampleInput1" class="form-label">CountryName</label>
+      <input required ngModel type="text" class="form-control" name="name" #CountryName="ngModel" minlength="5" maxlength="10" placeholder="Enter CountryName"  [(ngModel)]="userObj.name" required>
+      <div *ngIf="CountryName.errors?.minlength">
+        Name must be at least 5 characters long.
+   </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInput2" class="form-label">CountryID</label>
+      <input required ngModel type="text" class="form-control" name="id" #CountryID="ngModel"  placeholder="Enter CountryID"  [(ngModel)]="userObj.id" required>
+ 
+    </div>
+
+    <br>
+
+    <button type="submit" class="btn btn-primary"  (click)="add(myForm.value)"
+     *ngIf="!isEdit && CountryID.valid && CountryName.valid" >Submit</button >
+
+    <button type="button" class="btn btn-info"  *ngIf="isEdit">Update</button >
+     
+     
+      
+  </form>
+
+  <br>
+  
+  <!-- dropdown -->
+  <div>
+    <select (change)="coun($event)">
+      <option *ngFor="let list of allUser" value={{list.name}},{{list.id}}>{{list.name}}
+    </select>
+   
+  </div>
+
+  <br>
+
+  <table class="table">
+    <thead>
+
+      <tr>
+        <th scope="col">CountryName</th>
+        <th scope="col">CountryID</th>  
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+      </tr>
+
+    </thead>
+    <tbody>
+
+      <tr *ngFor= "let country of allUser" >
+        <td>{{country.name}}</td>
+        <td>{{country.id}}</td>
+
+        <td><button (click)="editCountry(country)" class = "btn btn-warning">Edit</button></td>
+        <td><button (click)="deleteCountry(country)" class = "btn btn-danger">Delete</button></td>
+     </tr>
+    </tbody>
+  </table>
+</div>
+
+
